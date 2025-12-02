@@ -1,0 +1,3 @@
+Number of time clicked past zero: 5509
+Number of times the dial was zero: 1129
+0x434C49434B Password: 6638
