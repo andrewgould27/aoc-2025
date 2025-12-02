@@ -52,3 +52,27 @@ func TestWrapRight(t *testing.T) {
 
 	assert.Equal(curr_dial, 0, "Dial should be set to 0")
 }
+
+func TestRightRotation(t *testing.T) {
+	assert := assert.New(t)
+
+	curr_dial := 50
+	direction := 'R'
+	distance := 1000
+
+	rotations := Move(&curr_dial, direction, distance)
+
+	assert.Equal(rotations, 10, "Should have clicked past zero 10 times")
+}
+
+func TestLeftRotation(t *testing.T) {
+	assert := assert.New(t)
+
+	curr_dial := 50
+	direction := 'L'
+	distance := 1000
+
+	rotations := Move(&curr_dial, direction, distance)
+
+	assert.Equal(rotations, 10, "Should have clicked past zero 10 times")
+}

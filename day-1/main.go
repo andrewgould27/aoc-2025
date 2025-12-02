@@ -19,8 +19,18 @@ import (
 
 // The dial starts by pointing at 50
 
+// Part two requires me to keep track of how many times it clicks past zero
+// not just when it lands on zero. 
+
 func mod(a, b int) int {
 	return ((a % b) + b) % b
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
 }
 
 
@@ -34,14 +44,27 @@ func ParseInstruction(input string) (rune, int) {
 	return direction, distance
 }
 
-func Move(curr_dial *int, dir rune, distance int) {
+func Move(curr_dial *int, dir rune, distance int) int {
 	if dir == 'L' {
 		distance *= -1
 	}
 
-	*curr_dial = mod(*curr_dial + distance, 100)
+	start := *curr_dial
+	end := start + distance
+	*curr_dial = mod(end, 100)
 
-	fmt.Printf("New pos: %v\n", *curr_dial)
+	var rotations int
+	if distance >= 0 {
+		rotations = end / 100
+	} else {
+		if end < 0 {
+			rotations = (start - end) / 100
+		} else {
+			rotations = 0
+		}
+	}
+
+	return rotations
 }
 
 func main() {
@@ -53,13 +76,16 @@ func main() {
 
 	var dial_value int = 50
 	var number_of_zero int = 0
+	var clicked_past_zero int = 0
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
 
 		direction, distance := ParseInstruction(line)
-		Move(&dial_value, direction, distance)
+		rotations := Move(&dial_value, direction, distance)
+
+		clicked_past_zero += rotations
 
 		if (dial_value == 0) {
 			number_of_zero++
@@ -70,5 +96,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Printf("Number of time clicked past zero: %v\n", clicked_past_zero)
 	fmt.Printf("Number of times the dial was zero: %v\n", number_of_zero)
+	fmt.Printf("0x434C49434B Password: %v\n", clicked_past_zero + number_of_zero)
 }
