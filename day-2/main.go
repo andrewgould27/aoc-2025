@@ -14,16 +14,27 @@ func HandleRange(start, end int) int {
 
 	for i := start; i <= end; i++ {
 		s := strconv.Itoa(i)
-		if len(s) % 2 != 0 {
-			continue
-		}
+		length := len(s)
 
-		half := len(s) / 2
-		
-		if s[:half] == s[half:] {
-			sum += i
+		for size := 1; size <= length/2; size++ {
+			if length % size == 0 {
+				pattern := s[:size]
+				matched := true
+				for i := size; i < length; i += size {
+					if s[i:i+size] != pattern {
+						matched = false
+						break
+					}
+				}
+
+				if matched {
+					sum += i
+					break
+				}
+			}
 		}
 	}
+
 	return sum
 }
 
