@@ -50,9 +50,9 @@ func main() {
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		raw_ranges := strings.Split(line, ",")
+		raw_ranges := strings.SplitSeq(line, ",")
 
-		for _, raw_range := range raw_ranges {
+		for raw_range := range raw_ranges {
 			range_arr := strings.SplitN(raw_range, "-", 2)
 			start, err := strconv.Atoi(range_arr[0])
 			if err != nil {
@@ -62,8 +62,6 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
-
-			fmt.Printf("(%v, %v)\n", start, end)
 
 			sum := HandleRange(start, end)
 			cumsum += sum
