@@ -8,11 +8,11 @@ import (
 	"strconv"
 )
 
-func HandleLine(s string) int {
-	result := make([]byte, 0, 12)
+func HandleLine(s string, n int) int {
+	result := make([]byte, 0, n)
 
-	for i := 0; i < 12; i++ {
-		max_idx := len(s) - (12 - len(result))
+	for range n {
+		max_idx := len(s) - (n - len(result))
 		best_idx := 0
 
 		for j := 1; j <= max_idx; j++ {
@@ -36,15 +36,19 @@ func main() {
 		log.Fatal(err)
 	}
 
-	var cumsum int = 0
+	var p1_cumsum int = 0
+	var p2_cumsum int = 0
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		sum := HandleLine(line)
-		cumsum += sum
+		sum := HandleLine(line, 2)
+		p1_cumsum += sum
+		sum = HandleLine(line, 12)
+		p2_cumsum += sum
 	}
 
-	fmt.Printf("Cumsum: %v\n", cumsum)
+	fmt.Printf("Part 1 Cumsum: %v\n", p1_cumsum)
+	fmt.Printf("Part 2 Cumsum: %v\n", p2_cumsum)
 }
